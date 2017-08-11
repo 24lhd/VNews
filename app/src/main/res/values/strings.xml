@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">Vnews</string>
+    <string name="action_settings">Cài đặt</string>
+    <string name="title_activity_main">Video tin tức</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="action_rate">Ủng hộ 5*</string>
+    <string name="action_refesh">Tải lại</string>
+    <string name="dialog_loading_data_title">Thông báo</string>
+    <string name="title_activity_view_video">Xem video</string>
+    <string name="dialog_loading_data_message">Đang tải dữ liệu...</string>
+    <string name="facebook_app_id">287553971726894</string>
+    <string name="facebook_ads_id_on_video_view">287553971726894_287558738393084</string>
+    <string name="facebook_ads_id_in_list_video">287553971726894_287567408392217</string>
+</resources>

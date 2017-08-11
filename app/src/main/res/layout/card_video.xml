@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/card_video_layout_item"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/card_video_shape"
+    android:layout_marginTop="@dimen/card_video_padding_content_bt"
+    android:elevation="3dp"
+    android:layout_marginBottom="@dimen/card_video_padding_content_bt"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="@dimen/card_video_padding_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/card_video_padding_content"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:layout_gravity="center"
+                android:scaleType="center"
+                android:src="@drawable/ic_ondemand_video_black_24dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center|left"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/card_video_txt_title"
+                    style="@style/TextAppearance.AppCompat.Title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="@dimen/card_video_padding_content"
+                    android:gravity="center|left"
+                    android:text="Cách xếp rượu không bị vỡ trong hành lý ký gửi" />
+
+                <TextView
+                    android:id="@+id/card_video_txt_name_cate_time"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center|right"
+                    android:text="Thời sự - 6:11 5/71/2017"
+                    android:textSize="14sp" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/card_video_img_thumb_video"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/height_card_video"
+                android:background="@color/colorAccent"
+                android:scaleType="centerCrop"
+                android:src="@drawable/demo" />
+
+            <TextView
+                android:id="@+id/card_video_txt_time_video"
+                style="@style/TextAppearance.AppCompat.Caption"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/card_video_img_thumb_video"
+                android:layout_alignRight="@+id/card_video_img_thumb_video"
+                android:layout_gravity="center"
+                android:layout_margin="@dimen/card_video_padding_content"
+                android:background="@color/colorBgTxtTime"
+                android:gravity="center"
+                android:padding="2dp"
+                android:text="2:40"
+                android:textColor="@color/colorWhite" />
+        </RelativeLayout>
+
+    </LinearLayout>
+</LinearLayout>
+

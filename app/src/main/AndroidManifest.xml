@@ -7,10 +7,9 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/ic_app"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
-        android:screenOrientation="landscape"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
@@ -21,26 +20,23 @@
         </activity>
         <activity
             android:name="com.duongstudio.mvp.main.MainActivity"
-            android:label="@string/title_activity_main"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
-        <activity android:name="com.duongstudio.mvp.setting.SettingActivity">
-
-        </activity>
+        <activity
+            android:name="com.duongstudio.mvp.setting.SettingActivity"
+            android:screenOrientation="portrait"></activity>
         <activity
             android:name="com.duongstudio.mvp.videoview.VideoViewActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:label="@string/title_activity_view_video"
-
-            android:screenOrientation="portrait">
-
-        </activity>
+            android:screenOrientation="portrait"></activity>
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
@@ -48,6 +44,11 @@
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="8535fcafdeabaedb3b6834a850382f1e54275482" />
+
+        <activity
+            android:name=".Main2Activity"
+            android:label="@string/title_activity_main2"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

@@ -4,16 +4,19 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import com.crashlytics.android.Crashlytics;
 import com.duongstudio.config.Config;
 import com.duongstudio.listener.OnGetDataSucssec;
 import com.duongstudio.mvp.listvideo.ListVideoFragment;
@@ -21,46 +24,99 @@ import com.duongstudio.mvp.videoview.VideoViewActivity;
 import com.duongstudio.obj.ItemCategory;
 import com.duongstudio.obj.ItemVideo;
 import com.duongstudio.videotintuc.R;
-import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
 
-import io.fabric.sdk.android.Fabric;
-
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, MainActivityView, OnGetDataSucssec {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,
+        MainActivityView,
+        OnGetDataSucssec {
     NavigationView navigationView;
     MainActivityPresenter mainActivityPresenter;
+    private SectionsPagerAdapter mSectionsPagerAdapter;
+    private ViewPager mViewPager;
+    private TabLayout tabLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Fabric.with(this, new Crashlytics());
-        setContentView(R.layout.activity_main);
-        FacebookSdk.sdkInitialize(getApplicationContext());
-        AppEventsLogger.activateApp(this);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setContentView(R.layout.activity_main2);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar2);
         setSupportActionBar(toolbar);
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.setStatusBarBackgroundColor(getResources().getColor(R.color.colorNone));
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
-        toggle.syncState();
-        navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
+        tabLayout = (TabLayout) findViewById(R.id.tb_layout2);
+        mViewPager = (ViewPager) findViewById(R.id.container2);
         mainActivityPresenter = new MainActicityPresenterInmpl(this);
         mainActivityPresenter.setOnGetDataSucsec(this);
     }
+
+
+
+    public class SectionsPagerAdapter extends FragmentPagerAdapter {
+
+        private ArrayList<ItemCategory> itemCategories;
+
+        public SectionsPagerAdapter(FragmentManager fm, ArrayList<ItemCategory> itemCategories) {
+            super(fm);
+            this.itemCategories = itemCategories;
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            return ListVideoFragment.newInstance(itemCategories.get(position));
+        }
+        @Override
+        public int getCount() {
+            // Show 3 total pages.
+            return itemCategories.size();
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return itemCategories.get(position).nameCategory;
+        }
+//        @Override
+//        public CharSequence getPageTitle(int position) {
+//            Log.e("CharSequence",itemCategories.get(position).nameCategory);
+//
+////            switch (position) {
+////                case 0:
+////                    return "First Tab";
+////                case 1:
+////                default:
+////                    return "Second Tab";
+////            }
+//        }
+    }
+
+    //    @Override
+//    protected void onCreate(Bundle savedInstanceState) {
+//        super.onCreate(savedInstanceState);
+//        Fabric.with(this, new Crashlytics());
+//        setContentView(R.layout.activity_main);
+//        FacebookSdk.sdkInitialize(getApplicationContext());
+//        AppEventsLogger.activateApp(this);
+//        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+//        setSupportActionBar(toolbar);
+//        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+//        drawer.setStatusBarBackgroundColor(getResources().getColor(R.color.colorNone));
+//        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+//                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+//        drawer.setDrawerListener(toggle);
+//        toggle.syncState();
+//        navigationView = (NavigationView) findViewById(R.id.nav_view);
+//        navigationView.setNavigationItemSelectedListener(this);
+//        mainActivityPresenter = new MainActicityPresenterInmpl(this);
+//        mainActivityPresenter.setOnGetDataSucsec(this);
+//    }
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
-        }
+//        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+//        if (drawer.isDrawerOpen(GravityCompat.START)) {
+//            drawer.closeDrawer(GravityCompat.START);
+//        } else {
+//            super.onBackPressed();
+//        }
     }
 
     @Override
@@ -103,6 +159,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         progressDialog.setCancelable(false);
         progressDialog.show();
     }
+
     // Add to each long-lived activity
     @Override
     protected void onResume() {
@@ -121,9 +178,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public void hideDialogLoadData() {
-        try{
+        try {
             progressDialog.dismiss();
-        }catch (Exception e){
+        } catch (Exception e) {
 
         }
 
@@ -133,7 +190,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public void setCategory(String jsonCategory) {
         ListVideoFragment listVideoFragment = new ListVideoFragment();
         Bundle bundle = new Bundle();
-        ItemCategory itemCategory = gson.fromJson(jsonCategory, ItemCategory.class);
+        ItemCategory itemCategory = new Gson().fromJson(jsonCategory, ItemCategory.class);
         setBarTitle(itemCategory.nameCategory);
         bundle.putString(Config.KEY_CATEGORY, jsonCategory);
         listVideoFragment.setArguments(bundle);
@@ -178,13 +235,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public void setMenuDrawView() {
 
-        for (ItemCategory itemCategory : itemCategories) {
-            navigationView.getMenu().add("")
-                    .setTitle(itemCategory.nameCategory)
-                    .setIcon(R.drawable.ic_ondemand_video_white_36dp)
-                    .setCheckable(true)
-                    .setTitleCondensed(gson.toJson(itemCategory));
-        }
+//        for (ItemCategory itemCategory : itemCategories) {
+//            navigationView.getMenu().add("")
+//                    .setTitle(itemCategory.nameCategory)
+//                    .setIcon(R.drawable.ic_ondemand_video_white_36dp)
+//                    .setCheckable(true)
+//                    .setTitleCondensed(gson.toJson(itemCategory));
+//        }
     }
 
     @Override
@@ -197,7 +254,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public void onSucsec() {
         hideDialogLoadData();
-        setCategory(gson.toJson(itemCategories.get(0)));
+        mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager(), getItemCategories());
+        mViewPager.setAdapter(mSectionsPagerAdapter);
+        tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
+        tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
+        tabLayout.setupWithViewPager(mViewPager);
     }
 
     @Override

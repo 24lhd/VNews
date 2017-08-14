@@ -5,7 +5,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,8 +15,8 @@ import com.duongstudio.mvp.main.MainActivity;
 import com.duongstudio.obj.ItemCategory;
 import com.duongstudio.obj.ItemVideo;
 import com.duongstudio.videotintuc.R;
-import com.facebook.ads.AdSettings;
 import com.facebook.ads.NativeAd;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 
@@ -36,7 +35,7 @@ public class ListVideoFragment extends Fragment implements ListVideoView, ListVi
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         String keyCate = getArguments().getString(Config.KEY_CATEGORY);
-        AdSettings.addTestDevice("bb7947a20f1c895c6110aebeb8a771a5");
+//        AdSettings.addTestDevice("bb7947a20f1c895c6110aebeb8a771a5");
         viewContent = inflater.inflate(R.layout.list_video_layout, null);
         mainActivity = (MainActivity) getActivity();
         initView();
@@ -45,6 +44,14 @@ public class ListVideoFragment extends Fragment implements ListVideoView, ListVi
         showListVideo();
         hideLoadingList();
         return viewContent;
+    }
+
+    public static ListVideoFragment newInstance(ItemCategory itemCategory) {
+        ListVideoFragment listVideoFragment = new ListVideoFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString(Config.KEY_CATEGORY, new Gson().toJson(itemCategory));
+        listVideoFragment.setArguments(bundle);
+        return listVideoFragment;
     }
 
     @Override

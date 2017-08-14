@@ -12,4 +12,6 @@
     <string name="facebook_app_id">287553971726894</string>
     <string name="facebook_ads_id_on_video_view">287553971726894_287558738393084</string>
     <string name="facebook_ads_id_in_list_video">287553971726894_287567408392217</string>
+    <string name="title_activity_main2">Main2Activity</string>
+    <string name="section_format">Hello World from section: %1$d</string>
 </resources>

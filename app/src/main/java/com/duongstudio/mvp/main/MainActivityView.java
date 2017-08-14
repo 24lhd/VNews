@@ -6,7 +6,7 @@ import com.duongstudio.obj.ItemVideo;
  * Created by D on 8/11/2017
  */
 
-interface MainActivityView {
+public interface MainActivityView {
 
     public void showDialogLoadData();
 

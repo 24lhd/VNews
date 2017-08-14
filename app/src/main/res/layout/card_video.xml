@@ -64,8 +64,8 @@
                 android:id="@+id/card_video_img_thumb_video"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/height_card_video"
-                android:background="@color/colorAccent"
-                android:scaleType="centerCrop"
+                android:layout_centerHorizontal="true"
+                android:scaleType="fitCenter"
                 android:src="@drawable/demo" />
 
             <TextView

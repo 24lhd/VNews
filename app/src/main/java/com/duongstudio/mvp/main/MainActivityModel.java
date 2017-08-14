@@ -6,7 +6,7 @@ import android.os.Handler;
  * Created by D on 8/11/2017.
  */
 
-interface MainActivityModel {
+public interface MainActivityModel {
 
     public void getVideos(Handler callBack);
 

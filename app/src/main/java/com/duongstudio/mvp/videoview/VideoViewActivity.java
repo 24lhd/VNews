@@ -7,7 +7,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
@@ -24,7 +23,6 @@ import com.facebook.FacebookSdk;
 import com.facebook.ads.Ad;
 import com.facebook.ads.AdError;
 import com.facebook.ads.AdListener;
-import com.facebook.ads.AdSettings;
 import com.facebook.ads.NativeAd;
 import com.facebook.ads.NativeAdView;
 import com.facebook.appevents.AppEventsLogger;
@@ -89,7 +87,7 @@ public class VideoViewActivity extends AppCompatActivity implements VideoView {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 //        getSupportActionBar().setDisplayShowHomeEnabled(true);
         initView();
-        AdSettings.addTestDevice("bb7947a20f1c895c6110aebeb8a771a5");
+//        AdSettings.addTestDevice("bb7947a20f1c895c6110aebeb8a771a5");
         showNativeAd();
     }
 
@@ -161,13 +159,15 @@ public class VideoViewActivity extends AppCompatActivity implements VideoView {
     }
 
     public void xinQuyen(String quyen, int indexResult) {
-        if (ContextCompat.checkSelfPermission(this, quyen)
-                != PackageManager.PERMISSION_GRANTED) {
-//            if (ActivityCompat.shouldShowRequestPermissionRationale(this, quyen)) {
-//                Config.downloadToFoderDownload(itemVideo.getTitle() + ".mp4", itemVideo.getLinkVideo(), VideoViewActivity.this);
-//            } else {
-            ActivityCompat.requestPermissions(this, new String[]{quyen}, indexResult);
-//            }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (checkSelfPermission(quyen)
+                    != PackageManager.PERMISSION_GRANTED) {
+                //            if (ActivityCompat.shouldShowRequestPermissionRationale(this, quyen)) {
+                //                Config.downloadToFoderDownload(itemVideo.getTitle() + ".mp4", itemVideo.getLinkVideo(), VideoViewActivity.this);
+                //            } else {
+                ActivityCompat.requestPermissions(this, new String[]{quyen}, indexResult);
+                //            }
+            }
         }
     }
 
@@ -178,7 +178,6 @@ public class VideoViewActivity extends AppCompatActivity implements VideoView {
                 Log.v(TAG, "Permission is granted");
                 return true;
             } else {
-
                 Log.v(TAG, "Permission is revoked");
                 ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
                 return false;

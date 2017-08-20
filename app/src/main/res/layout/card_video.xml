@@ -33,6 +33,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:gravity="center|left"
+                android:paddingLeft="@dimen/card_video_padding_content"
                 android:orientation="vertical">
 
                 <TextView
@@ -41,7 +42,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_marginLeft="@dimen/card_video_padding_content"
                     android:gravity="center|left"
                     android:text="Cách xếp rượu không bị vỡ trong hành lý ký gửi" />
 

@@ -11,6 +11,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -41,15 +42,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main2);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar2);
+        setContentView(R.layout.activity_main);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        tabLayout = (TabLayout) findViewById(R.id.tb_layout2);
-        mViewPager = (ViewPager) findViewById(R.id.container2);
+        tabLayout = (TabLayout) findViewById(R.id.tb_layout);
+        mViewPager = (ViewPager) findViewById(R.id.container);
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer.setStatusBarBackgroundColor(getResources().getColor(R.color.colorNone));
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.setDrawerListener(toggle);
+        toggle.syncState();
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
         mainActivityPresenter = new MainActicityPresenterInmpl(this);
         mainActivityPresenter.setOnGetDataSucsec(this);
     }
-
 
 
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
@@ -65,6 +72,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         public Fragment getItem(int position) {
             return ListVideoFragment.newInstance(itemCategories.get(position));
         }
+
         @Override
         public int getCount() {
             // Show 3 total pages.
@@ -111,12 +119,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //    }
     @Override
     public void onBackPressed() {
-//        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-//        if (drawer.isDrawerOpen(GravityCompat.START)) {
-//            drawer.closeDrawer(GravityCompat.START);
-//        } else {
-//            super.onBackPressed();
-//        }
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
     }
 
     @Override
@@ -188,13 +196,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public void setCategory(String jsonCategory) {
-        ListVideoFragment listVideoFragment = new ListVideoFragment();
-        Bundle bundle = new Bundle();
-        ItemCategory itemCategory = new Gson().fromJson(jsonCategory, ItemCategory.class);
-        setBarTitle(itemCategory.nameCategory);
-        bundle.putString(Config.KEY_CATEGORY, jsonCategory);
-        listVideoFragment.setArguments(bundle);
-        getSupportFragmentManager().beginTransaction().replace(R.id.frame_view, listVideoFragment).commit();
+//        ListVideoFragment listVideoFragment = new ListVideoFragment();
+//        Bundle bundle = new Bundle();
+//        ItemCategory itemCategory = new Gson().fromJson(jsonCategory, ItemCategory.class);
+//        setBarTitle(itemCategory.nameCategory);
+//        bundle.putString(Config.KEY_CATEGORY, jsonCategory);
+//        listVideoFragment.setArguments(bundle);
+//        getSupportFragmentManager().beginTransaction().replace(R.id.frame_view, listVideoFragment).commit();
     }
 
     @Override

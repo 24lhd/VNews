@@ -14,10 +14,10 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.crashlytics.android.Crashlytics;
 import com.duongstudio.config.Config;
 import com.duongstudio.listener.OnGetDataSucssec;
 import com.duongstudio.mvp.listvideo.ListVideoFragment;
@@ -25,10 +25,13 @@ import com.duongstudio.mvp.videoview.VideoViewActivity;
 import com.duongstudio.obj.ItemCategory;
 import com.duongstudio.obj.ItemVideo;
 import com.duongstudio.videotintuc.R;
+import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
+
+import io.fabric.sdk.android.Fabric;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,
         MainActivityView,
@@ -38,25 +41,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private SectionsPagerAdapter mSectionsPagerAdapter;
     private ViewPager mViewPager;
     private TabLayout tabLayout;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        tabLayout = (TabLayout) findViewById(R.id.tb_layout);
-        mViewPager = (ViewPager) findViewById(R.id.container);
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.setStatusBarBackgroundColor(getResources().getColor(R.color.colorNone));
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
-        toggle.syncState();
-        navigationView = (NavigationView) findViewById(R.id.nav_view);
-        mainActivityPresenter = new MainActicityPresenterInmpl(this);
-        mainActivityPresenter.setOnGetDataSucsec(this);
-    }
 
 
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
@@ -75,7 +59,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         @Override
         public int getCount() {
-            // Show 3 total pages.
             return itemCategories.size();
         }
 
@@ -83,40 +66,50 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         public CharSequence getPageTitle(int position) {
             return itemCategories.get(position).nameCategory;
         }
-//        @Override
-//        public CharSequence getPageTitle(int position) {
-//            Log.e("CharSequence",itemCategories.get(position).nameCategory);
-//
-////            switch (position) {
-////                case 0:
-////                    return "First Tab";
-////                case 1:
-////                default:
-////                    return "Second Tab";
-////            }
-//        }
     }
 
-    //    @Override
-//    protected void onCreate(Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//        Fabric.with(this, new Crashlytics());
-//        setContentView(R.layout.activity_main);
-//        FacebookSdk.sdkInitialize(getApplicationContext());
-//        AppEventsLogger.activateApp(this);
-//        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-//        setSupportActionBar(toolbar);
-//        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-//        drawer.setStatusBarBackgroundColor(getResources().getColor(R.color.colorNone));
-//        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-//                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-//        drawer.setDrawerListener(toggle);
-//        toggle.syncState();
-//        navigationView = (NavigationView) findViewById(R.id.nav_view);
-//        navigationView.setNavigationItemSelectedListener(this);
-//        mainActivityPresenter = new MainActicityPresenterInmpl(this);
-//        mainActivityPresenter.setOnGetDataSucsec(this);
-//    }
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        Fabric.with(this, new Crashlytics());
+        setContentView(R.layout.activity_main);
+        FacebookSdk.sdkInitialize(getApplicationContext());
+        AppEventsLogger.activateApp(this);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer.setStatusBarBackgroundColor(getResources().getColor(R.color.colorNone));
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.setDrawerListener(toggle);
+        toggle.syncState();
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+//        navigationView.setClickable(true);
+        tabLayout = (TabLayout) findViewById(R.id.tb_layout);
+        mViewPager = (ViewPager) findViewById(R.id.container);
+        tabLayout.setSelectedTabIndicatorHeight(0);
+        toggle.syncState();
+        mainActivityPresenter = new MainActicityPresenterInmpl(this);
+        mainActivityPresenter.setOnGetDataSucsec(this);
+        mViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                setBarTitle(getResources().getString(R.string.app_name)+" - "+itemCategories.get(position).nameCategory);
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+    }
+
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -128,28 +121,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-//        if (id == R.id.action_settings) {
-//            return true;
-//        }
-        if (id == R.id.action_rate) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
-    @SuppressWarnings("StatementWithEmptyBody")
-    @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        setCategory(item.getTitleCondensed().toString());
+//        setCategory(item.getTitleCondensed().toString());
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
@@ -182,8 +155,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         AppEventsLogger.deactivateApp(this);
     }
 
-////Gọi sau setContentView
-
     @Override
     public void hideDialogLoadData() {
         try {
@@ -196,13 +167,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public void setCategory(String jsonCategory) {
-//        ListVideoFragment listVideoFragment = new ListVideoFragment();
-//        Bundle bundle = new Bundle();
-//        ItemCategory itemCategory = new Gson().fromJson(jsonCategory, ItemCategory.class);
-//        setBarTitle(itemCategory.nameCategory);
-//        bundle.putString(Config.KEY_CATEGORY, jsonCategory);
-//        listVideoFragment.setArguments(bundle);
-//        getSupportFragmentManager().beginTransaction().replace(R.id.frame_view, listVideoFragment).commit();
     }
 
     @Override
@@ -243,13 +207,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public void setMenuDrawView() {
 
-//        for (ItemCategory itemCategory : itemCategories) {
-//            navigationView.getMenu().add("")
-//                    .setTitle(itemCategory.nameCategory)
-//                    .setIcon(R.drawable.ic_ondemand_video_white_36dp)
-//                    .setCheckable(true)
-//                    .setTitleCondensed(gson.toJson(itemCategory));
-//        }
     }
 
     @Override

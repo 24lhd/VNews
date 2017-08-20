@@ -38,11 +38,12 @@
 
                 <TextView
                     android:id="@+id/card_video_txt_title"
-                    style="@style/TextAppearance.AppCompat.Title"
+                    style="@style/TextAppearance.AppCompat.Body2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:gravity="center|left"
+                    android:textSize="17sp"
                     android:text="Cách xếp rượu không bị vỡ trong hành lý ký gửi" />
 
                 <TextView

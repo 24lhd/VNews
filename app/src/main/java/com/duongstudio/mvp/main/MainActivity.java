@@ -2,6 +2,7 @@ package com.duongstudio.mvp.main;
 
 import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -14,6 +15,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
@@ -76,15 +78,35 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.intro_layout);
         getWindow().setFlags(FLAG_FULLSCREEN, FLAG_FULLSCREEN);
 //        getWindow().setFlags(FLAG_TRANSLUCENT_NAVIGATION, FLAG_TRANSLUCENT_NAVIGATION);
-        mainActivityPresenter = new MainActicityPresenterInmpl(this);
-        mainActivityPresenter.setOnGetDataSucsec(this);
+        if (Config.isOnline(this)) {
+            mainActivityPresenter = new MainActicityPresenterInmpl(this);
+            mainActivityPresenter.setOnGetDataSucsec(this);
+        } else {
+            final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("Thông báo");
+            builder.setMessage("Bạn chưa kết nối tới Internet. Hãy bật kết nối bằng 3G/Wifi và vào lại ứng dụng.");
+            builder.setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    finish();
+                }
+            });
+
+            builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                @Override
+                public void onDismiss(DialogInterface dialogInterface) {
+                    finish();
+                }
+            });
+            builder.show();
+        }
+
 
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         initViewIntro();
     }
 

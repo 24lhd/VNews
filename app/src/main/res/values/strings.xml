@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">VNews</string>
+    <string name="app_name">Video 24h</string>
     <string name="action_settings">Cài đặt</string>
     <string name="title_activity_main">Video tin tức</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>

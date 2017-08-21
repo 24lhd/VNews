@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<dimen name="activity_horizontal_margin">24.00dp</dimen>
+	<dimen name="activity_vertical_margin">24.00dp</dimen>
+	<dimen name="appbar_padding_top">12.00dp</dimen>
+	<dimen name="card_video_padding_content">12.00dp</dimen>
+	<dimen name="card_video_padding_content_bt">6.00dp</dimen>
+	<dimen name="fab_margin">24.00dp</dimen>
+	<dimen name="height_card_video">300.00dp</dimen>
+	<dimen name="nav_header_height">240.00dp</dimen>
+	<dimen name="nav_header_vertical_spacing">24.00dp</dimen>
+	<dimen name="video_view_height_video">360.00dp</dimen>
+	<dimen name="video_view_height_view_more">72.00dp</dimen>
+	<dimen name="w_icon_intro">384.00dp</dimen>
+</resources>

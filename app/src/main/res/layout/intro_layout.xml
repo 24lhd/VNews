@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary">
+
+    <ImageView
+        android:id="@+id/ic_intro"
+        android:layout_width="@dimen/w_icon_intro"
+        android:layout_height="@dimen/w_icon_intro"
+        android:layout_centerInParent="true"
+        android:src="@drawable/bg_intro" />
+
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/ic_intro"
+        android:layout_centerInParent="true" />
+</RelativeLayout>

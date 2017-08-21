@@ -1,7 +1,9 @@
 package com.duongstudio.mvp.main;
 
 import android.app.ProgressDialog;
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
@@ -32,6 +34,8 @@ import com.google.gson.Gson;
 import java.util.ArrayList;
 
 import io.fabric.sdk.android.Fabric;
+
+import static android.view.WindowManager.LayoutParams.FLAG_FULLSCREEN;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,
         MainActivityView,
@@ -68,46 +72,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
+    public void initViewIntro() {
+        setContentView(R.layout.intro_layout);
+        getWindow().setFlags(FLAG_FULLSCREEN, FLAG_FULLSCREEN);
+//        getWindow().setFlags(FLAG_TRANSLUCENT_NAVIGATION, FLAG_TRANSLUCENT_NAVIGATION);
+        mainActivityPresenter = new MainActicityPresenterInmpl(this);
+        mainActivityPresenter.setOnGetDataSucsec(this);
+
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Fabric.with(this, new Crashlytics());
-        setContentView(R.layout.activity_main);
-        FacebookSdk.sdkInitialize(getApplicationContext());
-        AppEventsLogger.activateApp(this);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.setStatusBarBackgroundColor(getResources().getColor(R.color.colorNone));
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
-        toggle.syncState();
-        navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
-//        navigationView.setClickable(true);
-        tabLayout = (TabLayout) findViewById(R.id.tb_layout);
-        mViewPager = (ViewPager) findViewById(R.id.container);
-        tabLayout.setSelectedTabIndicatorHeight(0);
-        toggle.syncState();
-        mainActivityPresenter = new MainActicityPresenterInmpl(this);
-        mainActivityPresenter.setOnGetDataSucsec(this);
-        mViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-                setBarTitle(getResources().getString(R.string.app_name)+" - "+itemCategories.get(position).nameCategory);
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-
-            }
-        });
+        initViewIntro();
     }
 
     @Override
@@ -120,9 +98,26 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
+    private void rate() {
+        Uri uri = Uri.parse("market://details?id=" + this.getPackageName());
+        Intent goToMarket = new Intent(Intent.ACTION_VIEW, uri);
+        // To count with Play market backstack, After pressing back button,
+        // to taken back to our application, we need to add following flags to intent.
+        goToMarket.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY |
+                Intent.FLAG_ACTIVITY_NEW_DOCUMENT |
+                Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
+        try {
+            startActivity(goToMarket);
+        } catch (ActivityNotFoundException e) {
+            startActivity(new Intent(Intent.ACTION_VIEW,
+                    Uri.parse("http://play.google.com/store/apps/details?id=" + this.getPackageName())));
+        }
+    }
+
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
 //        setCategory(item.getTitleCondensed().toString());
+        rate();
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
@@ -134,11 +129,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public void showDialogLoadData() {
 //        builderDialogLoading = new AlertDialog.Builder(this);
-        progressDialog = new ProgressDialog(this);
-        progressDialog.setTitle(getResources().getString(R.string.dialog_loading_data_title));
-        progressDialog.setMessage(getResources().getString(R.string.dialog_loading_data_message));
-        progressDialog.setCancelable(false);
-        progressDialog.show();
+//        progressDialog = new ProgressDialog(this);
+//        progressDialog.setTitle(getResources().getString(R.string.dialog_loading_data_title));
+//        progressDialog.setMessage(getResources().getString(R.string.dialog_loading_data_message));
+//        progressDialog.setCancelable(false);
+//        progressDialog.show();
     }
 
     // Add to each long-lived activity
@@ -158,7 +153,44 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public void hideDialogLoadData() {
         try {
-            progressDialog.dismiss();
+//            progressDialog.dismiss();
+            getWindow().clearFlags(FLAG_FULLSCREEN);
+            Fabric.with(this, new Crashlytics());
+            setContentView(R.layout.activity_main);
+            FacebookSdk.sdkInitialize(getApplicationContext());
+            AppEventsLogger.activateApp(this);
+            Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+            setSupportActionBar(toolbar);
+            DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+            drawer.setStatusBarBackgroundColor(getResources().getColor(R.color.colorNone));
+            ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                    this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+            drawer.setDrawerListener(toggle);
+            toggle.syncState();
+            navigationView = (NavigationView) findViewById(R.id.nav_view);
+            navigationView.setNavigationItemSelectedListener(this);
+//        navigationView.setClickable(true);
+            tabLayout = (TabLayout) findViewById(R.id.tb_layout);
+            mViewPager = (ViewPager) findViewById(R.id.container);
+            tabLayout.setSelectedTabIndicatorHeight(0);
+            toggle.syncState();
+
+            mViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+                @Override
+                public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+                }
+
+                @Override
+                public void onPageSelected(int position) {
+                    setBarTitle(getResources().getString(R.string.app_name) + " - " + itemCategories.get(position).nameCategory);
+                }
+
+                @Override
+                public void onPageScrollStateChanged(int state) {
+
+                }
+            });
         } catch (Exception e) {
 
         }

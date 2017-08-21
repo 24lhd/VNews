@@ -12,4 +12,6 @@
     <string name="facebook_app_id">287553971726894</string>
     <string name="facebook_ads_id_on_video_view">287553971726894_287558738393084</string>
     <string name="facebook_ads_id_in_list_video">287553971726894_287567408392217</string>
+    <string name="txt_title_head">Video tin tức tổng hợp</string>
+    <string name="txt_body_head">Phiên bản thử nghiệm, mong nhận được các ý kiến đóng góp từ các bạn.</string>
 </resources>

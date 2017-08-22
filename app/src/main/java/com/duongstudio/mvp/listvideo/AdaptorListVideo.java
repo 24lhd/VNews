@@ -126,20 +126,24 @@ public class AdaptorListVideo extends AdaptorADS {
     public void ViewHolderItem(ViewHolderItem viewHolder, int position) {
         ItemVideoHoder itemVideoHoder = (ItemVideoHoder) viewHolder;
         final ItemVideo itemVideo = ((ItemVideo) listObject.get(position));
-        itemVideoHoder.tvTitle.setText(itemVideo.getTitle());
-        itemVideoHoder.tvTimeDate.setText(itemVideo.getPubDate().getGio()
-                + ":" + itemVideo.getPubDate().getPhut()
-                + " /" + itemVideo.getPubDate().getNgay()
-                + "/" + itemVideo.getPubDate().getThang()
-                + "/" + itemVideo.getPubDate().getNam());
-        itemVideoHoder.tvTimeVideo.setText(itemVideo.getTimeVideo());
-        Glide.with(mainActivity).load(itemVideo.getImage()).into(itemVideoHoder.imvThumVideo);
-        itemVideoHoder.itemCard.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mainActivity.startViewVideo(itemVideo);
-            }
-        });
+        try {
+            itemVideoHoder.tvTitle.setText(itemVideo.getTitle());
+            itemVideoHoder.tvTimeDate.setText(itemVideo.getPubDate().getGio()
+                    + ":" + itemVideo.getPubDate().getPhut()
+                    + " " + itemVideo.getPubDate().getNgay()
+                    + "/" + itemVideo.getPubDate().getThang()
+                    + "/" + itemVideo.getPubDate().getNam());
+            itemVideoHoder.tvTimeVideo.setText(itemVideo.getTimeVideo());
+            Glide.with(mainActivity).load(itemVideo.getImage()).into(itemVideoHoder.imvThumVideo);
+            itemVideoHoder.itemCard.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    mainActivity.startViewVideo(itemVideo);
+                }
+            });
+        } catch (Exception e) {
+        }
+
     }
 
 }

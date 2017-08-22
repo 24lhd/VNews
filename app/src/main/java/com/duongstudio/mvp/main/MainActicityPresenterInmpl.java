@@ -30,28 +30,32 @@ public class MainActicityPresenterInmpl implements MainActivityPresenter {
     public void setOnGetDataSucsec(OnGetDataSucssec onGetDataSucsec) {
         this.onGetDataSucsec = onGetDataSucsec;
         mainActivity.showDialogLoadData();
-        mainActivityModel.getCategorys(new Handler() {
-            @Override
-            public void handleMessage(Message msg) {
-                try {
-                    itemCategories = (ArrayList<ItemCategory>) msg.obj;
-                    mainActivityModel.getVideos(new Handler() {
-                        @Override
-                        public void handleMessage(Message msg) {
-                            itemVideos = (ArrayList<ItemVideo>) msg.obj;
-                            setListCategorys();
-                            setListVideos();
-                            mainActivity.setMenuDrawView();
-                            mainActivity.onSucsec();
-                        }
-                    });
-                } catch (Exception e) {
-                    mainActivity.onFail();
+        try {
+            mainActivityModel.getCategorys(new Handler() {
+                @Override
+                public void handleMessage(Message msg) {
+                    try {
+                        itemCategories = (ArrayList<ItemCategory>) msg.obj;
+                        mainActivityModel.getVideos(new Handler() {
+                            @Override
+                            public void handleMessage(Message msg) {
+                                itemVideos = (ArrayList<ItemVideo>) msg.obj;
+                                setListCategorys();
+                                setListVideos();
+                                mainActivity.setMenuDrawView();
+                                mainActivity.onSucsec();
+                            }
+                        });
+                    } catch (Exception e) {
+                        mainActivity.onFail();
+                    }
+
+
                 }
-
-
-            }
-        });
+            });
+        } catch (Exception e) {
+            setOnGetDataSucsec(onGetDataSucsec);
+        }
 
 
     }

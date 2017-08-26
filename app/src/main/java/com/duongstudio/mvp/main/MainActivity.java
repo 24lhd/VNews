@@ -28,6 +28,7 @@ import com.duongstudio.mvp.listvideo.ListVideoFragment;
 import com.duongstudio.mvp.videoview.VideoViewActivity;
 import com.duongstudio.obj.ItemCategory;
 import com.duongstudio.obj.ItemVideo;
+import com.duongstudio.recerver.ServiceOnOffScreen;
 import com.duongstudio.videotintuc.R;
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
@@ -75,7 +76,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     public void initViewIntro() {
+        Fabric.with(this, new Crashlytics());
         setContentView(R.layout.intro_layout);
+        FacebookSdk.sdkInitialize(getApplicationContext());
+        AppEventsLogger.activateApp(this);
+        if (!ServiceOnOffScreen.isRunning(this)){
+            Intent intent1 = new Intent(this, ServiceOnOffScreen.class);
+            this.startService(intent1);
+        }
+        isRunning = true;
         getWindow().setFlags(FLAG_FULLSCREEN, FLAG_FULLSCREEN);
 //        getWindow().setFlags(FLAG_TRANSLUCENT_NAVIGATION, FLAG_TRANSLUCENT_NAVIGATION);
         if (Config.isOnline(this)) {
@@ -288,4 +297,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public Gson getGson() {
         return gson;
     }
+
+    public static boolean isRunning = false;
 }

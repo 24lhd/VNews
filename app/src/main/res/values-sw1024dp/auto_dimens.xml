@@ -7,9 +7,9 @@
 	<dimen name="card_video_padding_content_bt">12.80dp</dimen>
 	<dimen name="fab_margin">51.20dp</dimen>
 	<dimen name="height_card_video">640.00dp</dimen>
-	<dimen name="nav_header_height">512.00dp</dimen>
+	<dimen name="nav_header_height">256.00dp</dimen>
 	<dimen name="nav_header_vertical_spacing">51.20dp</dimen>
 	<dimen name="video_view_height_video">768.00dp</dimen>
-	<dimen name="video_view_height_view_more">153.60dp</dimen>
+	<dimen name="video_view_height_view_more">128.00dp</dimen>
 	<dimen name="w_icon_intro">819.20dp</dimen>
 </resources>

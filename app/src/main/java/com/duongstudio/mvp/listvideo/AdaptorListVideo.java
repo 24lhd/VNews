@@ -105,23 +105,28 @@ public class AdaptorListVideo extends AdaptorADS {
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        switch (viewType) {
-            case ADS:
-                View nativeExpressLayoutView = LayoutInflater.from(parent.getContext()).
-                        inflate(R.layout.item_ads_fb_in_list, parent, false);
-                return new FBAds(nativeExpressLayoutView);//new NativeExpressAdViewHolder(nativeExpressLayoutView);
-            default:
-            case ITEM:
-                View menuItemLayouthView = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_video, parent, false);
-                return new ItemVideoHoder(menuItemLayouthView);
+        try {
+            switch (viewType) {
+                case ADS:
+                    View nativeExpressLayoutView = LayoutInflater.from(parent.getContext()).
+                            inflate(R.layout.item_ads_fb_in_list, parent, false);
+                    return new FBAds(nativeExpressLayoutView);//new NativeExpressAdViewHolder(nativeExpressLayoutView);
+                default:
+                case ITEM:
+                    View menuItemLayouthView = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_video, parent, false);
+                    return new ItemVideoHoder(menuItemLayouthView);
+            }
+        } catch (Exception e) {
+            View menuItemLayouthView = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_video, parent, false);
+            return new ItemVideoHoder(menuItemLayouthView);
         }
+
     }
 
     @Override
     public void ViewHolderAds(ViewHolderAds viewHolder, int position) {
 
     }
-
     @Override
     public void ViewHolderItem(ViewHolderItem viewHolder, int position) {
         ItemVideoHoder itemVideoHoder = (ItemVideoHoder) viewHolder;

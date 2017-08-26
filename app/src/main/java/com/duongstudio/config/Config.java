@@ -8,7 +8,6 @@ import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.Environment;
-import android.util.Log;
 import android.widget.Toast;
 
 import java.io.File;
@@ -19,6 +18,17 @@ public class Config {
     public static final String URL_VIDEOS = "https://apivideos.herokuapp.com/videos";
     public static final String KEY_CATEGORY = "KEY_CATEGORY";
     public static final String KEY_VIDEO = "KEY_VIDEO";
+    public static final String NAME_DATEBASE = "vnews";
+    public static final String CL_VIDEOS = "videos";
+    public static final String CL_CATEGORYS = "categorys";
+    public static final String CMD_CREATE_TABLE_VIDEOS = "CREATE TABLE IF NOT EXISTS `videos` (" +
+            "`stt`INTEGER PRIMARY KEY AUTOINCREMENT," +
+            "`videos`TEXT" +
+            ");";
+    public static final String CMD_CREATE_TABLE_CATEGORYS = "CREATE TABLE IF NOT EXISTS `categorys` (" +
+            "`stt`INTEGER PRIMARY KEY AUTOINCREMENT," +
+            "`categorys`TEXT" +
+            ");";
 
 
     public static boolean isOnline(Context context) {
@@ -29,8 +39,9 @@ public class Config {
             return false;
         }
     }
+
     public static void downloadToFoderDownload(final String fileName, String url, final Context context) {
-        url=url.replace("\\","");
+        url = url.replace("\\", "");
         String destination = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/";
         destination += fileName;
         final Uri uri = Uri.parse("file://" + destination);

@@ -1,13 +1,20 @@
 package com.duongstudio.mvp.main;
 
+import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 
 import com.duongstudio.listener.OnGetDataSucssec;
 import com.duongstudio.obj.ItemCategory;
 import com.duongstudio.obj.ItemVideo;
+import com.duongstudio.recerver.MyServiceGetData;
+import com.duongstudio.sqlite.MySQL;
 
 import java.util.ArrayList;
+
+import static com.duongstudio.recerver.MyServiceGetData.isRunning;
 
 /**
  * Created by D on 8/11/2017.
@@ -30,32 +37,60 @@ public class MainActicityPresenterInmpl implements MainActivityPresenter {
     public void setOnGetDataSucsec(OnGetDataSucssec onGetDataSucsec) {
         this.onGetDataSucsec = onGetDataSucsec;
         mainActivity.showDialogLoadData();
-        try {
-            mainActivityModel.getCategorys(new Handler() {
-                @Override
-                public void handleMessage(Message msg) {
+        class ExeTask extends AsyncTask<Void, Void, Void> {
+            @Override
+            protected Void doInBackground(Void... voids) {
+                MySQL mySQL = new MySQL(mainActivity);
+                itemCategories = mySQL.selectCates();
+                itemVideos = mySQL.selectVideos();
+                if (itemVideos.size() > 0) {
+                    setListCategorys();
+                    setListVideos();
+                }
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(Void aVoid) {
+                if (itemVideos.size() > 0) {
+                    mainActivity.setMenuDrawView();
+                    mainActivity.onSucsec();
+                } else {
                     try {
-                        itemCategories = (ArrayList<ItemCategory>) msg.obj;
-                        mainActivityModel.getVideos(new Handler() {
+                        mainActivityModel.getCategorys(new Handler() {
                             @Override
                             public void handleMessage(Message msg) {
-                                itemVideos = (ArrayList<ItemVideo>) msg.obj;
-                                setListCategorys();
-                                setListVideos();
-                                mainActivity.setMenuDrawView();
-                                mainActivity.onSucsec();
+                                try {
+                                    itemCategories = (ArrayList<ItemCategory>) msg.obj;
+                                    mainActivityModel.getVideos(new Handler() {
+                                        @Override
+                                        public void handleMessage(Message msg) {
+                                            itemVideos = (ArrayList<ItemVideo>) msg.obj;
+                                            setListCategorys();
+                                            setListVideos();
+                                            mainActivity.setMenuDrawView();
+                                            mainActivity.onSucsec();
+                                            if (!isRunning(mainActivity)) {
+                                                Intent intent1 = new Intent(mainActivity, MyServiceGetData.class);
+                                                mainActivity.startService(intent1);
+                                            }
+                                        }
+                                    }, mainActivity);
+                                } catch (Exception e) {
+                                    mainActivity.onFail();
+                                }
                             }
-                        });
+                        }, mainActivity);
                     } catch (Exception e) {
-                        mainActivity.onFail();
+                        Log.e("vnews", e.getMessage());
+//            setOnGetDataSucsec(onGetDataSucsec);
                     }
-
-
                 }
-            });
-        } catch (Exception e) {
-            setOnGetDataSucsec(onGetDataSucsec);
+
+
+            }
         }
+        new ExeTask().execute();
 
 
     }

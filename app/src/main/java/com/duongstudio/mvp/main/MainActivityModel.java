@@ -8,7 +8,7 @@ import android.os.Handler;
 
 public interface MainActivityModel {
 
-    public void getVideos(Handler callBack);
+    public void getVideos(Handler callBack, MainActivity mainActivity);
 
-    public void getCategorys(Handler callBack);
+    public void getCategorys(Handler callBack, MainActivity mainActivity);
 }

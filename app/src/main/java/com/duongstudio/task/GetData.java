@@ -1,5 +1,6 @@
 package com.duongstudio.task;
 
+import android.content.Context;
 import android.os.Handler;
 
 /**
@@ -7,7 +8,8 @@ import android.os.Handler;
  */
 
 public interface GetData {
-    public void getVideos(Handler callback);
 
-    public void getCategorys(Handler callback);
+    public void getVideos(Handler callback, Context mainActivity);
+
+    public void getCategorys(Handler callback, Context mainActivity);
 }

@@ -18,7 +18,6 @@ public class GetJsonFromURL extends AsyncTask<String, Void, String> {
         this.handler = handler;
         duongHTTP = new DuongHTTP();
     }
-
     @Override
     protected String doInBackground(String... strings) {
         try {

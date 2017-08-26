@@ -12,14 +12,14 @@ public class MainActicityModelImpl implements MainActivityModel {
     GetDataImpl getData;
 
     @Override
-    public void getVideos(Handler callBack) {
+    public void getVideos(Handler callBack, MainActivity mainActivity) {
         getData = new GetDataImpl();
-        getData.getVideos(callBack);
+        getData.getVideos(callBack,mainActivity);
     }
 
     @Override
-    public void getCategorys(Handler callBack) {
+    public void getCategorys(Handler callBack, MainActivity mainActivity) {
         getData = new GetDataImpl();
-        getData.getCategorys(callBack);
+        getData.getCategorys(callBack,mainActivity);
     }
 }

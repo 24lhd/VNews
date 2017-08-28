@@ -27,7 +27,7 @@ public class MySQL extends DuongSQLite implements MySQLInter {
     @Override
     public void insertVideos(final String json) {
         runCommand("INSERT INTO `videos`(`stt`,`videos`) VALUES (NULL,'" + json.replace("'", "\"") + "')");
-        Log.e("vnews", "INSERT INTO `videos`");
+//        Log.e("vnews", "INSERT INTO `videos`");
 
     }
 
@@ -41,7 +41,7 @@ public class MySQL extends DuongSQLite implements MySQLInter {
     @Override
     public void insertCates(final String json) {
         runCommand("INSERT INTO `categorys`(`stt`,`categorys`) VALUES (NULL,'" + json.replace("'", "\"") + "')");
-        Log.e("vnews", "INSERT INTO `categorys`");
+//        Log.e("vnews", "INSERT INTO `categorys`");
     }
 
     @Override
@@ -68,7 +68,7 @@ public class MySQL extends DuongSQLite implements MySQLInter {
                 ItemVideo itemVideo = gson.fromJson(cursor.getString(cursor.getColumnIndex(Config.CL_VIDEOS)), ItemVideo.class);
                 itemVideos.add(itemVideo);
             } catch (Exception e) {
-                Log.e("vnews", cursor.getString(cursor.getColumnIndex(Config.CL_VIDEOS)));
+                Log.e("vnews",e.getMessage());
             }
             cursor.moveToNext();
         }
@@ -87,7 +87,7 @@ public class MySQL extends DuongSQLite implements MySQLInter {
             try {
                 itemCategories.add(gson.fromJson(cursor.getString(cursor.getColumnIndex(Config.CL_CATEGORYS)), ItemCategory.class));
             } catch (Exception e) {
-                Log.e("vnews", cursor.getString(cursor.getColumnIndex(Config.CL_CATEGORYS)));
+                Log.e("vnews",e.getMessage());
             }
             cursor.moveToNext();
         }

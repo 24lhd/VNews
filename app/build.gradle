@@ -22,8 +22,9 @@ android {
         applicationId "com.duongstudio.videotintuc"
         minSdkVersion 16
         targetSdkVersion 26
-        versionCode 5
-        versionName "1.0.4"
+        versionCode 6
+        versionName "1.0.5"
+        multiDexEnabled true
     }
     buildTypes {
         release {
@@ -49,4 +50,5 @@ dependencies {
     compile('com.crashlytics.sdk.android:crashlytics:2.6.8@aar') {
         transitive = true;
     }
+    compile 'com.android.support:multidex:1.0.1'
 }
